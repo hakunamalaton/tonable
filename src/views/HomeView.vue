@@ -1,9 +1,7 @@
 <script setup lang="ts">
-import TheWelcome from '../components/TheWelcome.vue'
+import DataTable from '@/modules/data_table/components/DataTable.vue'
 </script>
 
 <template>
-  <main>
-    <TheWelcome />
-  </main>
+  <DataTable />
 </template>
