@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { storeToRefs } from 'pinia'
+import { useDataTableStore } from '@/stores/dataTable'
 import type { Row } from '../types'
 import { computed } from 'vue'
 
@@ -7,9 +9,11 @@ const props = defineProps<{
 }>()
 
 const pageSizeOptions = [5, 10, 20]
-
-const pageSize = defineModel<number>('pageSize', { default: 5 })
-const page = defineModel<number>('page', { default: 1 })
+const store = useDataTableStore()
+const {
+  pageSize,
+  page,
+} = storeToRefs(store)
 
 const totalPages = computed(() => {
   return Math.ceil(props.rows.length / pageSize.value)
