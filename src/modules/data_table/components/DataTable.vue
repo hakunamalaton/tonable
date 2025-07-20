@@ -44,19 +44,31 @@ const paginatedRows = computed(() => {
     </thead>
 
     <tbody>
-      <tr
-        class="border-b border-gray-200"
-        v-for="(row, index) in paginatedRows"
-        :key="index"
-      >
-        <td
-          v-for="(cell, index) in row.data"
+      <template v-if="paginatedRows.length === 0">
+        <tr>
+          <td
+            colspan="100%"
+            class="text-center"
+          >
+            No data
+          </td>
+        </tr>
+      </template>
+      <template v-else>
+        <tr
+          class="border-b border-gray-200"
+          v-for="(row, index) in paginatedRows"
           :key="index"
-          class="pr-4 truncate"
         >
-          {{ cell }}
-        </td>
-      </tr>
+          <td
+            v-for="(cell, index) in row.data"
+            :key="index"
+            class="pr-4 truncate"
+          >
+            {{ cell }}
+          </td>
+        </tr>
+      </template>
     </tbody>
   </table>
 
