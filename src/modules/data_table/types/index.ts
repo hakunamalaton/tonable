@@ -13,3 +13,16 @@ export interface Sort {
   columnId: number
   direction: 'asc' | 'desc' | null
 }
+
+interface NumberFilter {
+  [key: string]: {
+    min: number
+    max: number
+  }
+}
+
+interface TextFilter {
+  [key: string]: string
+}
+
+export type Filter = NumberFilter | TextFilter

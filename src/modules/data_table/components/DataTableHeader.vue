@@ -1,20 +1,21 @@
 <script setup lang="ts">
-import type { Column } from '../types'
+import type { Column, Filter } from '../types'
 import DataTableHeaderFilter from './DataTableHeaderFilter.vue'
-import { useDataTableStore } from '@/stores/dataTable'
+import type { Sort } from '../types'
 
 const props = defineProps<{
   column: Column
 }>()
 
-const { sort } = useDataTableStore()
+const sort = defineModel<Sort>('sort', { required: true })
+const filter = defineModel<Filter>('filter', { required: true })
 
 function handleSort () {
-  if (sort.columnId === props.column.id) {
-    sort.direction = sort.direction === 'asc' ? 'desc' : 'asc'
+  if (sort.value.columnId === props.column.id) {
+    sort.value.direction = sort.value.direction === 'asc' ? 'desc' : 'asc'
   } else {
-    sort.columnId = props.column.id
-    sort.direction = 'asc'
+    sort.value.columnId = props.column.id
+    sort.value.direction = 'asc'
   }
 }
 </script>
@@ -34,6 +35,7 @@ function handleSort () {
     </div>
     <DataTableHeaderFilter
       :column="column"
+      v-model:filter="filter"
     />
   </th>
 </template>

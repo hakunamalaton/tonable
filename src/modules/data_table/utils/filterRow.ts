@@ -1,6 +1,6 @@
-import type { Column, Row } from '../types'
+import type { Column, Filter, Row } from '../types'
 
-export function filterRow (rows: Row[], columns: Column[], filter: { [key: number]: { min: string, max: string } | string }) {
+export function filterRow (rows: Row[], columns: Column[], filter: Filter) {
   let filteredRows = [...rows]
 
   Object.entries(filter).forEach(([columnId, value]) => {

@@ -1,14 +1,11 @@
 <script setup lang="ts">
-import type { Column } from '../types'
-import { storeToRefs } from 'pinia'
-import { useDataTableStore } from '@/stores/dataTable'
+import type { Column, Filter } from '../types'
 
 defineProps<{
   column: Column
 }>()
 
-const store = useDataTableStore()
-const { filter } = storeToRefs(store)
+const filter = defineModel<Filter>('filter', { required: true })
 </script>
 
 <template>

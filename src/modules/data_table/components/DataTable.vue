@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import type { Column, Row, Sort } from '../types'
+import type { Column, Row, Sort, Filter } from '../types'
 import DataTableHeader from './DataTableHeader.vue'
 import DataTablePagination from './DataTablePagination.vue'
 import { sortRow } from '../utils/sortRow'
@@ -9,23 +9,23 @@ import { filterRow } from '../utils/filterRow'
 const props = defineProps<{
   columns: Column[]
   rows: Row[]
-  pageSize: number
-  page: number
-  sort: Sort
-  filter: { [key: number]: { min: string, max: string } | string }
 }>()
 
+const sort = defineModel<Sort>('sort', { required: true })
+const filter = defineModel<Filter>('filter', { required: true })
+const pageSize = defineModel<number>('pageSize', { required: true })
+const page = defineModel<number>('page', { required: true })
 
 const filteredRows = computed(() => {
-  const sortedRows = sortRow(props.rows, props.columns, props.sort)
+  const sortedRows = sortRow(props.rows, props.columns, sort.value)
 
-  const filteredRows = filterRow(sortedRows, props.columns, props.filter)
+  const filteredRows = filterRow(sortedRows, props.columns, filter.value)
 
   return filteredRows
 })
 
 const paginatedRows = computed(() => {
-  return filteredRows.value.slice((props.page - 1) * props.pageSize, props.page * props.pageSize)
+  return filteredRows.value.slice((page.value - 1) * pageSize.value, page.value * pageSize.value)
 })
 </script>
 
@@ -37,6 +37,8 @@ const paginatedRows = computed(() => {
           v-for="column in columns"
           :key="column.id"
           :column="column"
+          v-model:sort="sort"
+          v-model:filter="filter"
         />
       </tr>
     </thead>
@@ -62,6 +64,8 @@ const paginatedRows = computed(() => {
 
   <DataTablePagination
     :rows="filteredRows"
+    v-model:page-size="pageSize"
+    v-model:page="page"
   />
 </template>
 

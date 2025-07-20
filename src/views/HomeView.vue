@@ -18,9 +18,9 @@ const {
   <DataTable
     :columns="columns"
     :rows="rows"
-    :page-size="pageSize"
-    :page="page"
-    :sort="sort"
-    :filter="filter"
+    v-model:page-size="pageSize"
+    v-model:page="page"
+    v-model:sort="sort"
+    v-model:filter="filter"
   />
 </template>
